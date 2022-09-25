@@ -1,0 +1,63 @@
+\input{regression-test.tex}
+\documentclass{minimal}
+
+\usepackage{jobname-suffix}
+
+\ExplSyntaxOn
+\ExplSyntaxOff
+
+\begin{document}
+
+\START
+\TEST{\JobnameSuffix correctly processed}{
+	\TYPE{\JobnameSuffix}
+}
+\TEST{\IfSuffixTF, basic tests}{
+	\OverrideSuffix{foo}
+	% FALSE
+	\IfSuffixTF{\TRUE}{\FALSE}
+	% FALSE
+	\IfSuffixTF[]{\TRUE}{\FALSE}
+	% TRUE
+	\IfSuffixTF[foo]{\TRUE}{\FALSE}
+	% TRUE
+	\IfSuffixTF[foo, bar]{\TRUE}{\FALSE}
+	% TRUE
+	\IfSuffixTF[baz, foo, bar]{\TRUE}{\FALSE}
+}
+\TEST{\IfSuffixTF, test with spaces}{
+	\OverrideSuffix{foo bar}
+	% FALSE
+	\IfSuffixTF{\TRUE}{\FALSE}
+	% FALSE
+	\IfSuffixTF[]{\TRUE}{\FALSE}
+	% FALSE
+	\IfSuffixTF[foo]{\TRUE}{\FALSE}
+	% TRUE
+	\IfSuffixTF[foo bar]{\TRUE}{\FALSE}
+	% TRUE
+	\IfSuffixTF[baz, foo bar, baz]{\TRUE}{\FALSE}
+}
+\TEST{IfSuffix environment}{
+	\OverrideSuffix{foo}
+	\begin{IfSuffix}
+		\ERROR
+	\end{IfSuffix}
+	\begin{IfSuffix}[]
+		\ERROR
+	\end{IfSuffix}
+	\begin{IfSuffix}[foo]
+		\TRUE
+	\end{IfSuffix}
+	\begin{IfSuffix}[bar]
+		\ERROR
+	\end{IfSuffix}
+}
+\TEST{\JobnameSuffix}{
+	\OverrideSuffix{foo}
+	\TYPE{\JobnameSuffix}
+}
+
+\END
+
+\end{document}

@@ -1,0 +1,11 @@
+*-ctan.zip
+*.aux
+*.out
+*.log
+*.toc
+*.idx
+*.hd
+*.glo
+*.swo
+*.swp
+build/
